@@ -1,11 +1,11 @@
 // src/components/Navbar.js
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";  // Import the useAuth hook
+import { useAuth } from "../context/AuthContext";
 import { Button, AppBar, Toolbar, Typography } from "@mui/material";
 
 const Navbar = () => {
-  const { token, logout } = useAuth();  // Use the AuthContext
+  const { token, logout } = useAuth();
 
   return (
     <AppBar position="static">
@@ -15,12 +15,24 @@ const Navbar = () => {
             Goal Tracker
           </Link>
         </Typography>
-        {token ? (  // If logged in, show the Logout button
-          <Button color="inherit" onClick={logout}>Logout</Button>
-        ) : (  // If not logged in, show the Login and Sign Up buttons
+
+        {token ? (
           <>
-            <Button color="inherit" component={Link} to="/login">Login</Button>
-            <Button color="inherit" component={Link} to="/register">Sign Up</Button>
+            <Button color="inherit" component={Link} to="/roadmap">
+              AI Roadmap
+            </Button>
+            <Button color="inherit" onClick={logout}>
+              Logout
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button color="inherit" component={Link} to="/login">
+              Login
+            </Button>
+            <Button color="inherit" component={Link} to="/register">
+              Sign Up
+            </Button>
           </>
         )}
       </Toolbar>

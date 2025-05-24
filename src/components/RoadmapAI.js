@@ -1,66 +1,66 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
+// src/components/RoadmapAI.js
 
-const RoadmapAI = () => {
-  const [goalId, setGoalId] = useState('');
-  const [roadmap, setRoadmap] = useState('');
+import React, { useState } from "react";
+import axios from "axios";
+import { TextField, Button, Typography, Paper, CircularProgress } from "@mui/material";
+
+function RoadmapAI() {
+  const [goal, setGoal] = useState("");
+  const [roadmap, setRoadmap] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  // Handle form submission to generate roadmap
-  const handleGenerateRoadmap = async () => {
-    if (!goalId) {
-      setError('Please provide a goal ID.');
-      return;
-    }
-
+  const handleGenerate = async () => {
+    if (!goal.trim()) return;
     setLoading(true);
-    setError('');
+    setError("");
     try {
-      // Make API call to the backend to generate roadmap
-      const response = await axios.post('http://127.0.0.1:8000/generate-roadmap', { goal_id: goalId });
+      const response = await axios.post("http://localhost:8000/roadmap/generate-roadmap/", {
+        goal,
+      });
       setRoadmap(response.data.roadmap);
     } catch (err) {
-      setError('Failed to generate roadmap. Please try again.');
+      console.error(err);
+      setError("Failed to generate roadmap. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
-    <Box sx={{ padding: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Generate Roadmap to Achieve Your Goal
+    <Paper elevation={3} style={{ padding: "2rem", maxWidth: 700, margin: "2rem auto" }}>
+      <Typography variant="h5" gutterBottom>
+        Generate AI Roadmap
       </Typography>
       <TextField
-        label="Goal ID"
-        variant="outlined"
+        label="Enter your goal"
         fullWidth
-        value={goalId}
-        onChange={(e) => setGoalId(e.target.value)}
-        sx={{ marginBottom: 2 }}
+        margin="normal"
+        value={goal}
+        onChange={(e) => setGoal(e.target.value)}
       />
       <Button
         variant="contained"
         color="primary"
-        onClick={handleGenerateRoadmap}
+        onClick={handleGenerate}
         disabled={loading}
-        sx={{ marginBottom: 2 }}
       >
-        {loading ? <CircularProgress size={24} /> : 'Generate Roadmap'}
+        {loading ? <CircularProgress size={24} color="inherit" /> : "Generate Roadmap"}
       </Button>
 
-      {error && <Typography color="error">{error}</Typography>}
+      {error && <Typography color="error" style={{ marginTop: "1rem" }}>{error}</Typography>}
 
       {roadmap && (
-        <Box sx={{ marginTop: 3 }}>
-          <Typography variant="h6">Your Roadmap:</Typography>
-          <Typography>{roadmap}</Typography>
-        </Box>
+        <Paper style={{ marginTop: "2rem", padding: "1rem", backgroundColor: "#f4f4f4" }}>
+          <Typography variant="h6">AI Roadmap</Typography>
+          <Typography variant="body1" style={{ whiteSpace: "pre-line" }}>
+            {roadmap}
+          </Typography>
+        </Paper>
       )}
-    </Box>
+    </Paper>
   );
-};
+}
 
 export default RoadmapAI;
 
