@@ -14,7 +14,6 @@ import Home from "./components/Home";
 
 import { useAuth } from "./context/AuthContext";
 
-// RequireAuth wrapper to protect private routes
 const RequireAuth = ({ children }) => {
   const { token } = useAuth();
   return token ? children : <Navigate to="/login" />;
@@ -31,11 +30,8 @@ function App() {
 
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
-
-        {/* Publicly viewable goals list */}
         <Route path="/goals" element={<GoalList />} />
 
-        {/* Protected routes */}
         <Route
           path="/goals/create"
           element={
@@ -66,4 +62,3 @@ function App() {
 }
 
 export default App;
-
