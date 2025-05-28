@@ -1,19 +1,16 @@
-// src/components/GoalForm.js
-
-import React, { useState, useEffect } from "react";
-import { TextField, Button, Container, Box, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import API from "../api"; // ✅ Use your axios wrapper
-import { useAuth } from "../context/AuthContext"; // ✅ Access token from context
+import React, { useState, useEffect } from 'react';
+import { TextField, Button, Container, Box, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import API from '../api';
 
 const GoalForm = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [error, setError] = useState("");
-
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [dueDate, setDueDate] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { token } = useAuth(); // ✅ Use context instead of fetching manually
+  const { token } = useAuth();
 
   useEffect(() => {
     if (!token) {
@@ -30,9 +27,8 @@ const GoalForm = () => {
         description,
         due_date: dueDate,
       });
-
       console.log("Goal created:", response.data);
-      navigate("/goals"); // Redirect to goals list page after success
+      navigate("/goals");
     } catch (err) {
       setError(err.response?.data?.detail || "Failed to create goal. Please try again.");
     }
@@ -40,7 +36,7 @@ const GoalForm = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
         <Typography variant="h4" gutterBottom>
           Create New Goal
         </Typography>
@@ -49,7 +45,7 @@ const GoalForm = () => {
             {error}
           </Typography>
         )}
-        <form onSubmit={handleGoalSubmit} style={{ width: "100%" }}>
+        <form onSubmit={handleGoalSubmit} style={{ width: '100%' }}>
           <TextField
             label="Title"
             variant="outlined"
@@ -81,7 +77,13 @@ const GoalForm = () => {
               shrink: true,
             }}
           />
-          <Button variant="contained" color="primary" type="submit" fullWidth sx={{ mt: 2 }}>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            type="submit" 
+            fullWidth 
+            sx={{ mt: 2 }}
+          >
             Create Goal
           </Button>
         </form>
@@ -91,4 +93,3 @@ const GoalForm = () => {
 };
 
 export default GoalForm;
-

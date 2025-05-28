@@ -1,6 +1,4 @@
-// src/components/GoalList.js
-
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Box,
@@ -10,17 +8,17 @@ import {
   Button,
   Grid,
   CircularProgress,
-} from "@mui/material";
-import API from "../api";
-import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // 👈 Import useAuth
+} from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import API from '../api';
 
 const GoalList = () => {
   const [goals, setGoals] = useState([]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loadingId, setLoadingId] = useState(null);
   const [roadmaps, setRoadmaps] = useState({});
-  const { token } = useAuth(); // 👈 Get token
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchGoals = async () => {
@@ -49,11 +47,11 @@ const GoalList = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mt: 4, mb: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <Box sx={{ mt: 4, mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h4" gutterBottom>
           Your Goals
         </Typography>
-        {token && ( // 👈 Only show if logged in
+        {token && (
           <Button
             variant="contained"
             color="primary"
@@ -79,7 +77,7 @@ const GoalList = () => {
         ) : (
           goals.map((goal) => (
             <Grid item xs={12} sm={6} md={4} key={goal.id}>
-              <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <CardContent>
                   <Typography variant="h6">{goal.title}</Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -88,7 +86,7 @@ const GoalList = () => {
                   <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
                     Due Date: {goal.due_date}
                   </Typography>
-                  <Box sx={{ mt: 2, display: "flex", gap: 1 }}>
+                  <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
                     <Link to={`/goals/${goal.id}`}>
                       <Button variant="outlined" color="primary">
                         View Details
@@ -104,7 +102,7 @@ const GoalList = () => {
                     </Button>
                   </Box>
                   {roadmaps[goal.id] && (
-                    <Box sx={{ mt: 2, p: 1, bgcolor: "#f5f5f5", borderRadius: 2 }}>
+                    <Box sx={{ mt: 2, p: 1, bgcolor: '#f5f5f5', borderRadius: 2 }}>
                       <Typography variant="subtitle2">Roadmap:</Typography>
                       <Typography variant="body2" whiteSpace="pre-line">
                         {roadmaps[goal.id]}
@@ -122,4 +120,3 @@ const GoalList = () => {
 };
 
 export default GoalList;
-
